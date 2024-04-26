@@ -12,7 +12,6 @@ alias lx.sys.gfx.bufferCopy {
         if (%t != $null) {
 
                 drawcopy -nt %buffer %t 0 0 %w %h @lx.screen %x %y %w %h
-
         }
 
         else {

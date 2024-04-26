@@ -5,18 +5,22 @@ alias lx.sys.procManager {
                 ;; go through the list of active processes and execute them.
                 ;; processes require an update routine in which all the processing is done.
                 ;; there should be a seperate draw routine which the process manager can execute when required.
-
                 var %cnt 1
                 var %tot $line(@lx.procList, 0)
+
+                ;lxLog 8 -
+                ;lxLog 7 <procManager> running:
 
                 while (%cnt <= %tot) {
 
                         var %line $line(@lx.procList, %cnt)
                         var %proc $gettok(%line, 2, 32)
 
-                        ;lxLog executing process: %proc
+                        ;lxLog 9 <procManager> %cnt : %line
 
                         if ($hget(%proc, draw) == 1) {
+
+                                ;lxLog 10 <procManager> >> >> drawing
 
                                 $hget(%proc, draw.exec)
 
@@ -28,8 +32,6 @@ alias lx.sys.procManager {
                         inc %cnt
                 }
 
-                ;lx.bfui4we
-
                 .timerlx.run -tmh 1 0 noop $!lx.sys.procManager.run( lx.sys.procManager )
         }
 
@@ -39,11 +41,9 @@ alias lx.sys.procManager {
 
                 ;; new processes require a unique ID paramater to be passed.
                 ;; also, be sure to create a flag table with the same ID so the procmanager knows what to do!
-
                 var %id $+(lx.proc.,$2)
 
                 lxLog spawning new process: %id
-
                 lxLog checking if id %id is available...
 
                 if ($window(@lx.procList.tmp) != $null) {
@@ -51,9 +51,8 @@ alias lx.sys.procManager {
                         window -c @lx.procList.tmp
                 }
 
-                window -h @lx.procList.tmp
-                clear @lx.procList.tmp
-
+                window -h  @lx.procList.tmp
+                clear      @lx.procList.tmp
                 filter -ww @lx.procList @lx.procList.tmp $+(*,%id,*)
 
                 var %tot $line(@lx.procList.tmp, 0)
@@ -91,7 +90,6 @@ alias lx.sys.procManager {
                 }
 
                 lxLog flag table: %id
-
                 lxLog Checking if draw flag is set...
 
                 if ($hget(%id, draw) != $null) {
@@ -153,6 +151,7 @@ alias lx.sys.procManager {
 
                                 lxLog       Attempted to create existing buffer $+(%window,!)
                                 lx.panic  I refuse to overwrite any existing buffers.
+
                                 halt
                         }
 
@@ -193,7 +192,6 @@ alias lx.sys.procManager {
                 }
 
                 lxLog run routine: %exec
-
                 lxLog determining priority...
 
                 var %priority $hget(%id, priority)
@@ -207,7 +205,6 @@ alias lx.sys.procManager {
                 }
 
                 lxLog priority has been set to $+(%priority,)
-
                 lxLog adding %priority %id to process list
 
                 echo @lx.procList %priority %id
@@ -219,10 +216,14 @@ alias lx.sys.procManager {
 
                 lxLog  Request to terminate process: $2
                 lxLog  Removing from proclist...
+
                 filter -xww @lx.procList @lx.proclist.tmp $+(*, $2 ,*)
+
                 lxLog resetting proclist...
+
                 clear @lx.procList
                 filter -ww @lx.proclist.tmp @lx.proclist
+
                 lxLog done.
         }
 

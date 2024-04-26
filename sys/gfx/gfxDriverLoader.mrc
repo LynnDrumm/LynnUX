@@ -1,7 +1,6 @@
 on *:SIGNAL:lx.sys.gfxDriverLoader.init: {
 
         ;; initialize/load driver configuration/info tables.
-
         lxLog !!!!!! gfxDriverLoader initializing... !!!!!!!!!!
 
         var %ini $scriptdirgfxDriverConfig.ini
@@ -54,7 +53,6 @@ on *:SIGNAL:lx.sys.gfxDriverLoader.init: {
                 lxLog Loading driver: $hget(%infoTab, name) $+($hget(%infoTab, version),$chr(44)) by $+($hget(%infoTab, author),.)
 
                 ;; Load and initialize all the driver's files.
-
                 var %dir $+($scriptdirdrivers\,$hget(%infoTab, name))
 
                 if ($isdir(%dir) == $true) {

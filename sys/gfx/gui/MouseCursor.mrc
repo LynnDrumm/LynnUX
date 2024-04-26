@@ -5,7 +5,6 @@ alias lx.proc.gfx.gui.mouseCursor {
         if ($1 == run) {
 
                 ;; in the future, maybe add some stuff to change the cursor depending on context.
-
                 hadd %table cursor $scriptdircursors\pointer.png
 
                 if (%lx.fullscreen == 1) {
@@ -20,10 +19,14 @@ alias lx.proc.gfx.gui.mouseCursor {
                         hadd %table pos.y $mouse.y
                 }
 
+                if ($mouse.y == $null) {
+
+                        hadd %table pos.y 0
+                }
+
                 ;; check/set button status
 
                 ;; left button
-
                 if ($mouse.key & 1) {
 
                         hadd %table button.l 1
@@ -35,7 +38,6 @@ alias lx.proc.gfx.gui.mouseCursor {
                 }
 
                 ;; right button
-
                 if ($mouse.key & 16) {
 
                         hadd %table button.r 1
@@ -49,8 +51,13 @@ alias lx.proc.gfx.gui.mouseCursor {
 
         elseif ($1 == draw) {
 
+                ;; sometimes, x / y position are null I don't understand why?
                 drawpic -nrct $hget(%table, buffer) $rgb(0, 255, 255) $hget(%table, pos.x) $hget(%table, pos.y) $qt($hget(%table, cursor))
-                ;drawpic -nrct $hget(%table, buffer) $rgb(0, 255, 255) 0 0 $qt($hget(%table, cursor))
+
+                break
+
+                :error
+                lxLog [mouseCursor] something went wrong (x/y pos probably)
         }
 }
 

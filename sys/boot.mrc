@@ -34,7 +34,7 @@ alias lx.sys.boot.loader {
         lxLog Unloading all unneeded scripts...
 
         ;; list of scripts to keep
-        var %keep $scriptdirlog.mrc $scriptdirboot.mrc
+        var %keep $+($scriptdir,log.mrc) $+($scriptdir,boot.mrc)
 
         var %i 1
         var %tot $script(0)
@@ -62,9 +62,9 @@ alias lx.sys.boot.loader {
 
         lxLog loading essential files...
 
-        load $scriptdirfunctions.mrc
-        load $scriptdirpanic.mrc
-        load $scriptdirprocManager.mrc
+        load $scriptdir $+ functions.mrc
+        load $scriptdir $+ panic.mrc
+        load $scriptdir $+ procManager.mrc
 
         lxLog Booting...
         lxLog -
@@ -86,9 +86,12 @@ alias lx.sys.boot.loader {
 alias lx.proc.sys.boot {
 
         ;; contains list of instructions to run to boot the system
-        var %file $scriptdirboot.lx
-        var %i  $hget(lx.boot, counter)
+        var %file $scriptdir $+ boot.lx
+        var %i    $hget(lx.boot, counter)
 
+        ;; some behaviour in $read() changed at some point, now things bread.
+        ;; currently line 5 of boot.mrc sets a variable to the value returned by an identifier,
+        ;; but somehow i just get `1 1` back from this now. weird.
         var %read $read(%file, %i)
 
         lxLog boot: %read

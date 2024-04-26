@@ -18,11 +18,9 @@ alias -l drawConsole {
         var %y      $3
         var %w      $4
         var %y      $5
-
         var %font   $6
         var %size   $7
         var %colour $8
-
         var %input  $9-
 
         var %win $+($+(@lx.console.,%id)
@@ -49,11 +47,9 @@ alias -l openConsole {
         lxLog lx.console: Opening new console with id %id
 
         ;; create table name with id
-
         var %table $+(lx.console.,%id)
 
         ;; check if table does not exist yet, otherwise, throw an error.
-
         if ($hget(%table) != $null) {
 
                 ;; store the console's properties inside a table.
@@ -62,19 +58,15 @@ alias -l openConsole {
                 hadd %table y      $3
                 hadd %table w      $4
                 hadd %table y      $5
-
                 hadd %table font   $6
                 hadd %table size   $7
                 hadd %table colour $8
         }
 
         ;; create window to log to.
-
         var %window $+(@lx.console.,%id)
-
         window -h %window
 
         ;; write the console greet message.
-
         echo %window lx $lx.version console.
 }

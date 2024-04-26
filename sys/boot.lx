@@ -2,7 +2,7 @@ load $scriptdirfilesystem.mrc
 load $scriptdirgfx\gfxDriverLoader.mrc
 load $scriptdirdebug.mrc
 load $scriptdirgfx\guiLoader.mrc
-set %lx.fullscreen $hget(lx.gfxDriver.config, fullscreen)
+set $+(%,lx.fullscreen) $!hget(lx.gfxDriver.config, fullscreen)
 hadd lx.proc.gfx.gui.desktop draw 1
 hadd lx.proc.gfx.gui.menubar draw 1
 hadd lx.proc.gfx.gui.mousecursor draw 1

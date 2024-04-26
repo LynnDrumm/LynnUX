@@ -31,6 +31,6 @@ on *:SIGNAL:lx.sys.log.init: {
 
         ;; make a full screen window for the console log
         window -ak0Bfd +b @lx.console.log 0 0 $window(-1).w $window(-1).h
-        font @lx.console.log 12 fixedsys
+        font @lx.console.log 24 fixedsys
         clear @lx.console.log
 }
